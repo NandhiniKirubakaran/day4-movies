@@ -3,14 +3,16 @@ import { AddMovie } from './AddMovie';
 import { useEffect, useState, } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from "react-router-dom";
+import { API } from "./global";
 
 export function MovieList() {
   const [movieList, setMovieList] = useState([]);
 
 
   const getMovies = () => {
-    fetch("https://638cdc36eafd555746b0d43f.mockapi.io/movies", {
+    fetch(`${API}/movies`, {
       method: "GET",
     })
     .then((data)=>data.json())
@@ -26,11 +28,13 @@ export function MovieList() {
 
   const deleteMovie = (id) => {
     // Delete --- Refersh the data
-    fetch(`https://638cdc36eafd555746b0d43f.mockapi.io/movies/${id}`, {
+    fetch(`${API}/movies/${id}`, {
       method: "DELETE",
     })
     .then((data)=>getMovies(data))
   };
+
+  const navigate = useNavigate();
 
   return (
    <div>
@@ -39,7 +43,9 @@ export function MovieList() {
         {/* Parent -> Child (props) */}
         {movieList.map((mv) => (
           <div key={mv.id}>
+            {/* presentational component */}
             <Movie movie={mv}  id={mv.id} 
+            // renderProps
             deleteButton={
             <IconButton 
             aria-label="delete" 
@@ -47,7 +53,17 @@ export function MovieList() {
             color="error" 
             onClick={() => deleteMovie(mv.id)}> 
             <DeleteIcon />
-            </IconButton>} />
+            </IconButton>} 
+            
+            editButton={
+              <IconButton 
+              aria-label="edit" 
+              sx={{marginLeft: "auto"}}
+              color="secondary" 
+              onClick={() => navigate(`/movies/edit/${mv.id}`)}> 
+              <EditIcon />
+              </IconButton>} 
+            />
           </div>
           
         ))}

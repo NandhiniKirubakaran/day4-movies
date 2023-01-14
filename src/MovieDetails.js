@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useEffect, useState, } from "react";
-
+import { API } from "./global";
 
 export function MovieDetails() {
   const { id } = useParams();
@@ -14,12 +14,14 @@ export function MovieDetails() {
   //  After App component is mounted 
   // Axios
     useEffect(() => {
-      fetch(`https://638cdc36eafd555746b0d43f.mockapi.io/movies/${id}`, {
+      fetch(`${API}/movies/${id}`, {
         method: "GET",
       })
       .then((data)=>data.json())
       .then((mv)=>setMovie(mv));
     }, []);
+
+    console.log(movie);
 
   const styles = {
     color: movie.rating >= 8.5 ? "green" : "red",

@@ -16,6 +16,9 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { NotFound } from './NotFound';
 import { Home } from './Home';
 import { MovieDetails } from './MovieDetails';
+import { BasicForm } from './BasicForm';
+import { EditMovie } from './EditMovie';
+import { MoreVert } from '@mui/icons-material';
 
 
 
@@ -132,6 +135,9 @@ const users = [{
         <Route path="/movie-add" element={<AddMovie />} />
         
         <Route path="/movies/:id" element={<MovieDetails  />} />
+        <Route path="/basic-form" element={<BasicForm  />} />
+
+        <Route path="/movies/edit/:id" element={<EditMovie />} />
 
         <Route path="*" element={<NotFound />} />
         {/* <Route path="about" element={<About />} /> */}

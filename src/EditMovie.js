@@ -1,12 +1,11 @@
-// import { useState } from "react";
+import { useParams, } from "react-router-dom";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Navigate, useNavigate } from "react-router-dom";
-// import { PostAdd } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useEffect, useState, } from "react";
 import { API } from "./global";
-
 
 
 const movieValidationSchema = yup.object({
@@ -17,56 +16,63 @@ const movieValidationSchema = yup.object({
   trailer: yup.string().required().min(4).url(), 
 });
 
-export function AddMovie() {
-  // const [name, setName] = useState("");
-  // const [poster, setPoster] = useState("");
-  // const [rating, setRating] = useState("");
-  // const [summary, setSummary] = useState("");
-  // const [trailer, setTrailer] = useState("");
+export function EditMovie() {
+const { id } = useParams();
+  
+const [movie, setMovie] = useState(null);
 
+  //  After App component is mounted 
+  // Axios
+    useEffect(() => {
+      fetch(`/movies/${id}`, {
+        method: "GET",
+      })
+      .then((data)=>data.json())
+      .then((mv)=>setMovie(mv));
+    }, []);
+console.log(movie);
+
+return(
+  <div>
+   { movie ? <EditFormMovie movie={movie} /> : "Loading..."} 
+  </div>
+);
+}
+
+function EditFormMovie({movie}){
   const {handleSubmit, values, handleChange, handleBlur, touched, errors } =  
   useFormik({
   initialValues: {
-    name: "",
-    poster: "",
-    rating: "",
-    summary: "",
-    trailer: "",
+    name: movie.name,
+    poster: movie.poster,
+    rating: movie.rating,
+    summary: movie.summary,
+    trailer: movie.trailer,
   },
 
 validationSchema: movieValidationSchema,
-  onSubmit: (newMovie) => {
-    console.log("Form values: ", newMovie);
-    addMovie(newMovie);
+  onSubmit: (updatedMovie) => {
+    console.log("Form values: ", movie);
+    editMovie(updatedMovie);
   },
  });
 
-
 const navigate = useNavigate();
-const addMovie = (newMovie) => { 
-    // const newMovie = {
-    //   name: name,
-    //   poster: poster,
-    //   rating: rating,
-    //   summary: summary,
-    //   trailer: trailer,
-    // };
-
-    // setMovieList([...movieList, newMovie]);
-
+const editMovie = (updatedMovie) => { 
+    
     // Steps
-    //  1. method - POST
+    //  1. method - PUT & id
     //  2. body - data & JSON (string)
     //  3. header - JSON
-
     // JS -> python / JAVA / PHP (string) [Dictionary]
     // JSON / XML
 
-    fetch(`${API}/movies`, {
-      method: "POST",
-      body: JSON.stringify(newMovie), 
+    fetch(`${API}/movies/${movie.id}`, {
+      method: "PUT",
+      body: JSON.stringify(updatedMovie), 
       headers: { "Content-type": "application/json" },
     }).then(() => navigate("/movies"));
+    
   }; 
 
   return (
@@ -133,8 +139,20 @@ const addMovie = (newMovie) => {
       {/* onChange={(event) => setTrailer(event.target.value)} /> */}
       
       {/* <button onClick={addMovie}>Add Movie</button> */}
-      <Button variant="contained" type="submit">Add Movie</Button>
+      <Button color="success" variant="contained" type="submit">Save</Button>
     </form>
 
   );
 }
+
+
+
+
+
+// export function EditMovie() {
+//   //   return (
+//   //     <div>
+//   //       <h1>Edit Movie</h1>
+//   //     </div>
+//   //   );
+//   // }

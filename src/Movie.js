@@ -12,7 +12,7 @@ import CardActions from '@mui/material/CardActions';
 
 // Object Destructuring
 
-export function Movie({ movie, id, deleteButton }) {
+export function Movie({ movie, id, deleteButton,editButton }) {
   // contional styling
   const styles = {
     color: movie.rating >= 8.5 ? "green" : "red",
@@ -49,7 +49,7 @@ export function Movie({ movie, id, deleteButton }) {
       {show ? <p className="movie-summary">{movie.summary}</p> : null}
       </CardContent>
       <CardActions>
-      <Counter /> {deleteButton}
+      <Counter /> {editButton} {deleteButton} 
       </CardActions>
     </Card>
 
