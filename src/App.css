@@ -8,6 +8,12 @@
   object-fit: cover;
 }
 
+.home-content{
+text-align: center;
+padding: 200px;
+font-family: "Comic Sans MS",sans-serif;
+
+}
 .movie-name {
   font-size: 24px;
   margin: 0;
