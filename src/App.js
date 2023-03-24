@@ -72,7 +72,7 @@ function App() {
 
         <Route path="/movies/edit/:id" element={<EditMovie />} />
 
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Home />} />
         {/* <Route path="about" element={<About />} /> */}
       </Routes>
     </div>
